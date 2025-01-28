@@ -34,9 +34,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.uasa1.R
@@ -59,6 +61,7 @@ fun HomeProyekScreen(
     onBackClick: () -> Unit,
     navigateToProyekEntry: () -> Unit,
     navigateToProyekUpdate: (Int) -> Unit,
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
     onDetailClick: (Int) -> Unit = {},
     viewModel: HomeProyekViewModel = viewModel(factory = PenyediaViewModel.Factory)
@@ -84,11 +87,28 @@ fun HomeProyekScreen(
             FloatingActionButton(
                 onClick = navigateToProyekEntry,
                 shape = MaterialTheme.shapes.medium,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = Color.White,
                 modifier = Modifier.padding(18.dp)
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add Proyek")
             }
         },
+        bottomBar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    onClick = navigateToHome,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Lihat Opsi Lainnya")
+                }
+            }
+        }
     ) { innerPadding ->
         HomeProyekStatus(
             homeProyekUiState = viewModel.proyekUIState,
@@ -119,7 +139,7 @@ fun HomeProyekStatus(
         is ProyekUiState.Success ->
             if (homeProyekUiState.proyek.isEmpty()) {
                 Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Tidak ada data Proyek")
+                    Text(text = "Tidak ada data Proyek", fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.secondary)
                 }
             } else {
                 ProyekLayout(
@@ -154,7 +174,7 @@ fun OnErrorProyek(retryAction: () -> Unit, modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(id = R.drawable.error), contentDescription = ""
         )
-        Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp))
+        Text(text = stringResource(R.string.loading_failed), modifier = Modifier.padding(16.dp), color = MaterialTheme.colorScheme.error)
         Button(onClick = retryAction) {
             Text(stringResource(R.string.retry))
         }
@@ -197,6 +217,7 @@ fun ProyekCard(
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Column(
@@ -210,24 +231,29 @@ fun ProyekCard(
                 Text(
                     text = proyek.nama_proyek,
                     style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(Modifier.weight(1f))
                 IconButton(onClick = { onUpdateClick(proyek) }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Proyek"
+                        contentDescription = "Edit Proyek",
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
                 IconButton(onClick = { onDeleteClick(proyek) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
                     )
                 }
             }
             Text(
                 text = proyek.deskripsi_proyek,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

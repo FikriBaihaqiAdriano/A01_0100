@@ -42,6 +42,7 @@ object DestinasiHomePage : DestinasiNavigasi {
     override val route = "home"
     override val titleRes = "Home Manajemen"
 }
+
 @Preview(showBackground = true)
 @Composable
 fun HomePage(
@@ -56,7 +57,7 @@ fun HomePage(
             .fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.back),
+            painter = painterResource(id = R.drawable.background),
             contentDescription = "Background",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -84,14 +85,14 @@ fun HomePage(
                     ) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Manajemen Proyek",
+                            text = "Manajemen Organisasi",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Kelola proyek, tugas, tim, dan anggota dengan mudah!",
+                            text = "Kelola proyek, tugas, tim, anggota tim, dan tugas di sini",
                             fontSize = 14.sp,
                             color = Color.White
                         )
@@ -123,11 +124,11 @@ fun HomePage(
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    ButtonCard(
+                    ButtonCardWithImage(
                         modifier = Modifier
                             .weight(1f)
                             .clickable { onAddProject() },
-                        icon = Icons.Default.Add,
+                        imageRes = R.drawable.helm,
                         text = "Manajemen Proyek",
                         backgroundColor = Color(0xFF9C27B0)
                     )
@@ -141,11 +142,11 @@ fun HomePage(
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    ButtonCard(
+                    ButtonCardWithImage(
                         modifier = Modifier
                             .weight(1f)
                             .clickable { onManageTeams() },
-                        icon = Icons.Default.Person,
+                        imageRes = R.drawable.team,
                         text = "Manajemen Tim",
                         backgroundColor = Color(0xFF00BCD4)
                     )
@@ -154,7 +155,7 @@ fun HomePage(
                         modifier = Modifier
                             .weight(1f)
                             .clickable { onManageMembers() },
-                        icon = Icons.Default.Add,
+                        icon = Icons.Default.Person,
                         text = "Manajemen Anggota",
                         backgroundColor = Color(0xFFFF9800)
                     )
@@ -236,3 +237,41 @@ fun ButtonCard(
     }
 }
 
+@Composable
+fun ButtonCardWithImage(
+    modifier: Modifier,
+    imageRes: Int,
+    text: String,
+    backgroundColor: Color
+) {
+    Card(
+        modifier = modifier
+            .height(120.dp)
+            .padding(8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor)
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = imageRes),
+                    contentDescription = text,
+                    modifier = Modifier.size(60.dp)
+                )
+                Spacer(modifier = Modifier.height(0.dp))
+                Text(
+                    text = text,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+        }
+    }
+}

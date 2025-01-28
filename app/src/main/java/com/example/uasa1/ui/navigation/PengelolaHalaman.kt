@@ -52,7 +52,7 @@ fun PengelolaHalaman(
 ) {
     NavHost(
         navController = navController,
-        startDestination = DestinasiHomePage.route,
+        startDestination = DestinasiHomeProyek.route,
         modifier = Modifier
     ) {
         // Home Page
@@ -184,9 +184,8 @@ fun PengelolaHalaman(
                 onBackClick = { navController.popBackStack() },
                 navigateToProyekEntry = { navController.navigate(DestinasiInsertProyek.route) },
                 navigateToProyekUpdate = { id -> navController.navigate("${DestinasiUpdateProyek.route}/$id") },
-                onDetailClick = { id ->
-                    navController.navigate("${DestinasiDetailProyek.route}/$id")
-                }
+                onDetailClick = { id -> navController.navigate("${DestinasiDetailProyek.route}/$id") },
+                navigateToHome = { navController.navigate(DestinasiHomePage.route) }
             )
         }
 
